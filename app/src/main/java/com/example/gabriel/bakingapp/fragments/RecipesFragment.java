@@ -63,6 +63,7 @@ public RecipesFragment(){
           View rootview = inflater.inflate(R.layout.fragment_recipes, container, false);
         RecyclerView rv = (RecyclerView) rootview.findViewById(R.id.fragments_recipes_recycler_view);
 
+        mCardsList = new ArrayList<>();
 
         rv.setHasFixedSize(true);
         int numberOfColumns = 1;
@@ -105,7 +106,7 @@ public RecipesFragment(){
     private class RecipeSyncAdapter extends AsyncTask<String, Void, ArrayList<RecipeCards>>{
         private ArrayList<RecipeCards> mList;
 
-        private ArrayList<RecipeCards> getDetailsDataFromJson(String movieJSonStr)
+        private ArrayList<RecipeCards> getDetailsDataFromJson(String mJSonStr)
 
                 throws JSONException {
             final String KEY_ID = "id";
@@ -113,8 +114,8 @@ public RecipesFragment(){
             final String KEY_SERVINGS = "servings";
             mList = new ArrayList<>();
 
-            JSONObject jsonObject = new JSONObject(movieJSonStr);
-            JSONArray results = jsonObject.getJSONArray("");
+
+            JSONArray results = new JSONArray(mJSonStr);
 
             for (int i = 0; i < results.length(); i++) {
                 int resultID;
