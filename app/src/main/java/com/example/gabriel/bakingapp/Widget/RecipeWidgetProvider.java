@@ -29,7 +29,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
         Intent intent = new Intent(context, ListWidgetService.class);
         intent.putStringArrayListExtra("LIST", mList);
-
+        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         views.setRemoteAdapter(R.id.appwidget_ListView, intent);
 
         // Instruct the widget manager to update the widget

@@ -34,6 +34,7 @@
                 android:resource="@xml/recipe_widget_provider_info" />
         </receiver>
         <service android:name=".Widget.IngredientsIntentService" />
+        <service android:name=".Widget.ListWidgetService" />
     </application>
 
 </manifest>
