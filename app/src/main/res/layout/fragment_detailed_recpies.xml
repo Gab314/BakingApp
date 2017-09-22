@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/fragment__detailed_recipes_Linear_Layout"
+    android:orientation="vertical"
+    android:background="@color/colorBackground">
+
+    <ListView
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ingredient_row_ListView"
+        android:dividerHeight="0dp"
+        android:divider="@null"
+        android:background="@drawable/custom_shape">
+    </ListView>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragments_detailed_recipes_recycler_view"
+        android:background="@color/colorBackground">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

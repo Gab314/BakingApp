@@ -32,7 +32,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class RecipesFragment extends Fragment{
+public class RecipesFragment extends Fragment implements RecyclerViewAdapter.ItemClickListener{
 
     RecyclerViewAdapter adapter;
     ArrayList<RecipeCards> mCardsList;
@@ -64,7 +64,9 @@ public RecipesFragment(){
         RecyclerView rv = (RecyclerView) rootview.findViewById(R.id.fragments_recipes_recycler_view);
 
         mCardsList = new ArrayList<>();
-
+        if (savedInstanceState != null){
+            mCardsList = savedInstanceState.getParcelableArrayList("Cards");
+        }
         rv.setHasFixedSize(true);
         int numberOfColumns = 1;
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
@@ -72,7 +74,7 @@ public RecipesFragment(){
 
         adapter = new RecyclerViewAdapter(getActivity(), mCardsList);
         rv.setAdapter(adapter);
-
+        adapter.setClickListener(this);
 
             return rootview;
     }
@@ -80,6 +82,7 @@ public RecipesFragment(){
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelableArrayList("Cards", mCardsList);
     }
 
     public boolean isOnline(Context context) {
@@ -93,9 +96,11 @@ public RecipesFragment(){
     //@Override
     public void onItemClick(View view, int position) {
         try {
-               int id =  adapter.getItem(position).getRecipe_id();
+               RecipeCards recipes =  adapter.getItem(position);
             Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra(Intent.EXTRA_TEXT, id);
+
+            intent.putExtra("recipe", recipes.getJSONString());
+            intent.putExtra("position",position);
             startActivity(intent);
 
         }catch (NullPointerException e){
@@ -120,14 +125,20 @@ public RecipesFragment(){
             for (int i = 0; i < results.length(); i++) {
                 int resultID;
                 String resultName;
+
                 int resultServings;
+
+
+
                 JSONObject result = results.getJSONObject(i);
+
+
 
                 resultID = result.getInt(KEY_ID);
                 resultName = result.getString(KEY_NAME);
                 resultServings = result.getInt(KEY_SERVINGS);
 
-                RecipeCards recipeCards = new RecipeCards(resultID, resultName, resultServings);
+                RecipeCards recipeCards = new RecipeCards(resultID, resultName, resultServings,mJSonStr);
 
                 mList.add(recipeCards);
 

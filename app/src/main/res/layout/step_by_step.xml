@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/step_by_step_RelativeLayout"
+    android:background="#FFFFFF">
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/step_SimpleExoPlayer">
+
+
+    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="20sp"
+    android:id="@+id/step_TextView"
+    android:layout_below="@+id/step_SimpleExoPlayer"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/step_previous_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/previous_btn"
+        android:background="@drawable/custom_shape" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/step_next_btn"
+        android:layout_alignBaseline="@+id/step_previous_btn"
+        android:layout_alignBottom="@+id/step_previous_btn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="45dp"
+        android:layout_marginEnd="45dp"
+        android:text="@string/next_btn"
+        android:background="@drawable/custom_shape"
+        tools:ignore="RelativeOverlap" />
+
+</RelativeLayout>

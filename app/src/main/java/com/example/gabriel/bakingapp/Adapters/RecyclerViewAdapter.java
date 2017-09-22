@@ -22,13 +22,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView mTextView;
+        private TextView mTextView, sTextView;
         private CardView mCardView;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
             mTextView = (TextView) itemView.findViewById(R.id.card_recipe_text_view);
+            sTextView = (TextView) itemView.findViewById(R.id.card_recipe_text_view_servings);
             mCardView = (CardView) itemView.findViewById(R.id.card_recipe_card_view);
             itemView.setOnClickListener(this);
         }
@@ -44,12 +45,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         mRecipeCards = recipes;
     }
 
+    private Context getContext(){
+        return mContext;
+    }
+
     @Override
     public RecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View mView = inflater.inflate(R.layout.fragment_recipes,parent, false);
+        View mView = inflater.inflate(R.layout.card_recipe,parent, false);
 
         return new MyViewHolder(mView);
     }
@@ -59,18 +64,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         RecipeCards cards = mRecipeCards.get(position);
         TextView textView = holder.mTextView;
+        TextView stextView = holder.sTextView;
         String text_name = cards.getRecipe_name();
+        String servings = "Servings: " + String.valueOf(cards.getRecipe_servings_size());
             textView.setText(text_name);
+            stextView.setText(servings);
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mRecipeCards.size();
     }
 
     public void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
+       this.mClickListener = itemClickListener;
     }
     public interface ItemClickListener {
         void onItemClick(View view, int position);
