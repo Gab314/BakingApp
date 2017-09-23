@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.gabriel.bakingapp.R;
 
@@ -53,8 +54,10 @@ public class IngredientsIntentService extends IntentService{
         Bundle options = new Bundle();
         options.putStringArrayList("LIST", list);
         if(appWidgetIds.length > 0) {
-            appWidgetManager.updateAppWidgetOptions(appWidgetIds[0], options);
-
+            for (int appWidgetId : appWidgetIds) {
+                appWidgetManager.updateAppWidgetOptions(appWidgetId, options);
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.appwidget_ListView);
+            }
             RecipeWidgetProvider.updateRecipeWidget(this, appWidgetManager, appWidgetIds);
         }
 

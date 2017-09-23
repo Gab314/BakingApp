@@ -33,8 +33,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/recipe_widget_provider_info" />
         </receiver>
-        <service android:name=".Widget.IngredientsIntentService" />
-        <service android:name=".Widget.ListWidgetService" />
+        <service android:name=".Widget.IngredientsIntentService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+        <service android:name=".Widget.ListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
 
 </manifest>

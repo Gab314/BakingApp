@@ -11,12 +11,11 @@ import com.example.gabriel.bakingapp.R;
 import java.util.ArrayList;
 
 public class ListWidgetService extends RemoteViewsService{
-
+ArrayList<String> eList;
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-
-        return new ListRemoteViewsFactory(this.getApplicationContext(),
-                intent.getStringArrayListExtra("LIST") );
+        eList = intent.getStringArrayListExtra("LIST");
+        return new ListRemoteViewsFactory(this.getApplicationContext(),eList);
     }
 
     private class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
@@ -35,7 +34,7 @@ public class ListWidgetService extends RemoteViewsService{
 
         @Override
         public void onDataSetChanged() {
-
+            mList = eList;
         }
 
         @Override
@@ -45,7 +44,9 @@ public class ListWidgetService extends RemoteViewsService{
 
         @Override
         public int getCount() {
-            return mList.size();
+            if (mList != null) {
+                return mList.size();
+            }else return 0;
         }
 
         @Override

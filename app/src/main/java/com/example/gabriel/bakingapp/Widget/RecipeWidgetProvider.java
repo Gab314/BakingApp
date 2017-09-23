@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.gabriel.bakingapp.R;
@@ -32,6 +33,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         views.setRemoteAdapter(R.id.appwidget_ListView, intent);
 
+
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
@@ -40,6 +42,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     public static void updateRecipeWidget(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds){
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
+
         }
     }
 
