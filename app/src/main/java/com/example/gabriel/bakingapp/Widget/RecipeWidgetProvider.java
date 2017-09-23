@@ -30,6 +30,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
         Intent intent = new Intent(context, ListWidgetService.class);
         intent.putStringArrayListExtra("LIST", mList);
+        intent.putExtra("Random", Math.random() * 1000);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         views.setRemoteAdapter(R.id.appwidget_ListView, intent);
 
