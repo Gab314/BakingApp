@@ -11,6 +11,7 @@ import android.view.Window;
 import com.example.gabriel.bakingapp.R;
 import com.example.gabriel.bakingapp.fragments.DetailFragment;
 import com.example.gabriel.bakingapp.fragments.RecipesFragment;
+import com.example.gabriel.bakingapp.fragments.StepByStepFragment;
 
 
 public class DetailActivity extends AppCompatActivity {
@@ -19,14 +20,19 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.detailed_recipe);
 
         if (savedInstanceState == null) {
-            DetailFragment fragment = new DetailFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container, fragment);
-            fragmentTransaction.commit();
+            if (findViewById(R.id.container_detail) != null) {
+                DetailFragment fragment = new DetailFragment();
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("SMALL",true);
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container_detail, fragment);
+                fragmentTransaction.commit();
+            }
         }
     }
 }

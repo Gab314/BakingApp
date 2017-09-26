@@ -33,7 +33,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class RecipesFragment extends Fragment implements RecyclerViewAdapter.ItemClickListener{
-
+    Boolean tablet;
     RecyclerViewAdapter adapter;
     ArrayList<RecipeCards> mCardsList;
     final String LOG_TAG = RecipesFragment.class.getSimpleName();
@@ -45,6 +45,7 @@ public RecipesFragment(){
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null){
+
             if (isOnline(getActivity())) {
 
                 RecipeSyncAdapter recipeSyncAdapter = new RecipeSyncAdapter();
@@ -60,8 +61,10 @@ public RecipesFragment(){
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-          View rootview = inflater.inflate(R.layout.fragment_recipes, container, false);
-        RecyclerView rv = (RecyclerView) rootview.findViewById(R.id.fragments_recipes_recycler_view);
+
+
+        View rootview = inflater.inflate(R.layout.fragment_recipes, container, false);
+         RecyclerView   rv = (RecyclerView) rootview.findViewById(R.id.fragments_recipes_recycler_view);
 
         mCardsList = new ArrayList<>();
         if (savedInstanceState != null){

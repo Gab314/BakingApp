@@ -70,7 +70,11 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         View rootView = inflater.inflate(R.layout.step_by_step, container, false);
+        ArrayList<Steps> current_step;
+        int position;
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.step_SimpleExoPlayer);
         TextView stepText = (TextView) rootView.findViewById(R.id.step_TextView);
         Button pButton = (Button) rootView.findViewById(R.id.step_previous_btn);
@@ -80,8 +84,16 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
         mText = "NOT AVAILABLE";
 
             Intent intent = getActivity().getIntent();
-            int position = intent.getIntExtra("position",0);
-            final ArrayList<Steps> current_step =  intent.getParcelableArrayListExtra("StepsArray");
+            position = intent.getIntExtra("position",0);
+            current_step =  intent.getParcelableArrayListExtra("StepsArray");
+
+        if (getArguments() != null){
+            current_step = getArguments().getParcelableArrayList("StepsArray");
+            position = getArguments().getInt("position");
+            pButton.setVisibility(View.GONE);
+            nButton.setVisibility(View.GONE);
+        }
+
 
 
 
@@ -89,22 +101,18 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
         mNext = position;
 
 
-        if (getArguments() != null){
-            Bundle extras = getArguments();
-            position = extras.getInt("position");
-        }
-
-
+        assert current_step != null;
         mVideoURL = current_step.get(position).getVideoURL();
         setupCurrentStep(position,current_step);
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ){
             stepText.setText(mText);
 
+            final ArrayList<Steps> finalCurrent_step1 = current_step;
             pButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
                     Intent intent = new Intent(getActivity(), StepByStepActivity.class);
-                    intent.putParcelableArrayListExtra("StepsArray",current_step );
+                    intent.putParcelableArrayListExtra("StepsArray", finalCurrent_step1);
                     intent.putExtra("position", mPrev);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
@@ -114,11 +122,12 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
                 }
             });
 
+            final ArrayList<Steps> finalCurrent_step = current_step;
             nButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
                     Intent intent = new Intent(getActivity(), StepByStepActivity.class);
-                    intent.putParcelableArrayListExtra("StepsArray",current_step );
+                    intent.putParcelableArrayListExtra("StepsArray", finalCurrent_step);
                     intent.putExtra("position", mNext);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());

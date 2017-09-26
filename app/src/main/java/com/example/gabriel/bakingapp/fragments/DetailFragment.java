@@ -3,6 +3,8 @@ package com.example.gabriel.bakingapp.fragments;
 
 import android.app.ActivityOptions;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,7 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class DetailFragment extends Fragment implements RecyclerDetailAdapter.ItemClickListener{
-
+    Boolean small_sc;
     RecyclerDetailAdapter adapter;
     ArrayAdapter<String> ingAdapter;
     ArrayList<String> mIngList;
@@ -45,7 +47,9 @@ public class DetailFragment extends Fragment implements RecyclerDetailAdapter.It
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        //if (savedInstanceState == null){}
+        if (getArguments() != null){
+            small_sc = getArguments().getBoolean("SMALL");
+            }
 
         }
 
@@ -100,13 +104,25 @@ public class DetailFragment extends Fragment implements RecyclerDetailAdapter.It
     }
     public void onItemClick(View view, int position) {
 
-
-        Intent intent = new Intent(getActivity(), StepByStepActivity.class);
-        intent.putParcelableArrayListExtra("StepsArray",mStepsList );
-        intent.putExtra("position", position);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
-        }else startActivity(intent);
+        if (small_sc != null){
+            Intent intent = new Intent(getActivity(), StepByStepActivity.class);
+            intent.putParcelableArrayListExtra("StepsArray",mStepsList );
+            intent.putExtra("position", position);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+            }else startActivity(intent);
+        }
+        if (small_sc == null){
+            StepByStepFragment fragment = new StepByStepFragment();
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("StepsArray", mStepsList);
+            bundle.putInt("position", position);
+            fragment.setArguments(bundle);
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.detailed_steps, fragment);
+            fragmentTransaction.commit();
+        }
     }
 
         public void extractJSON(String object, int position) throws JSONException {
