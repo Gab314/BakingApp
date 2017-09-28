@@ -82,15 +82,21 @@ public class DetailFragment extends Fragment implements RecyclerDetailAdapter.It
 
             adapter.setClickListener(this);
 
-            Intent intent = getActivity().getIntent();
-              String recipes = intent.getStringExtra("recipe");
-                int position = intent.getIntExtra("position",0);
 
-            try {
-                extractJSON(recipes,position);
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (savedInstanceState == null){
+                Intent intent = getActivity().getIntent();
+               String recipes = intent.getStringExtra("recipe");
+               int position = intent.getIntExtra("position",0);
+                try {
+                    extractJSON(recipes,position);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
+
+
+
             IngredientsIntentService.startActionPutIngredients(getActivity(), mIngList);
             return rootView;
         }
@@ -140,6 +146,7 @@ public class DetailFragment extends Fragment implements RecyclerDetailAdapter.It
             final String KEY_SDESC = "shortDescription";
             final String KEY_DESC = "description";
             final String KEY_VIDEO = "videoURL";
+            final String KEY_IMAGE = "thumbnailURL";
             ArrayList<String> ingList = new ArrayList<>();
             ArrayList<Steps> stepsList = new ArrayList<Steps>();
             String ingredientRow;
@@ -162,7 +169,7 @@ public class DetailFragment extends Fragment implements RecyclerDetailAdapter.It
 
                 for (int i = 0; i < stepsArray.length(); i++){
                     int mId;
-                    String mSDesc, mDesc, mVideoURl;
+                    String mSDesc, mDesc, mVideoURl, mThumbnailURL;
 
                     JSONObject stepsResults =  stepsArray.getJSONObject(i);
 
@@ -170,8 +177,8 @@ public class DetailFragment extends Fragment implements RecyclerDetailAdapter.It
                     mSDesc = stepsResults.getString(KEY_SDESC);
                     mDesc = stepsResults.getString(KEY_DESC);
                     mVideoURl = stepsResults.getString(KEY_VIDEO);
-
-                    steps = new Steps(mId,mSDesc,mDesc,mVideoURl);
+                    mThumbnailURL = stepsResults.getString(KEY_IMAGE);
+                    steps = new Steps(mId,mSDesc,mDesc,mVideoURl, mThumbnailURL);
 
                     stepsList.add(steps);
 

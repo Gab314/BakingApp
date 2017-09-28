@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.example.gabriel.bakingapp.Adapters.RecyclerViewAdapter;
 import com.example.gabriel.bakingapp.R;
 import com.example.gabriel.bakingapp.Utils.RecipeCards;
@@ -52,7 +54,7 @@ public RecipesFragment(){
                 String mParams = "59121517_baking";
                 recipeSyncAdapter.execute(mParams);
 
-            }
+            }else Toast.makeText(getActivity(), "No Connection!", Toast.LENGTH_SHORT).show();
         }
         //restore saved state
 
@@ -230,7 +232,7 @@ public RecipesFragment(){
             if (result != null){
                 mCardsList.addAll(result);
                 adapter.notifyDataSetChanged();
-            }
+            }else Toast.makeText(getActivity(),"Can't retrieve resources", Toast.LENGTH_SHORT).show();
 
         }
     }

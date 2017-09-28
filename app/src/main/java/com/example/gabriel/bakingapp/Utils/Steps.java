@@ -6,13 +6,14 @@ import android.os.Parcelable;
 
 public class Steps implements Parcelable{
     private int id;
-    private String sDesc, desc, videoURL;
+    private String sDesc, desc, videoURL, thumbnailURL;
 
-    public Steps(int i, String s, String d, String v){
+    public Steps(int i, String s, String d, String v, String t){
         id = i;
         sDesc = s;
         desc = d;
         videoURL = v;
+        thumbnailURL = t;
     }
 
     public Steps(Parcel in) {
@@ -20,6 +21,7 @@ public class Steps implements Parcelable{
         sDesc = in.readString();
         desc = in.readString();
         videoURL = in.readString();
+        thumbnailURL = in.readString();
     }
 
     public static final Creator<Steps> CREATOR = new Creator<Steps>() {
@@ -38,6 +40,7 @@ public class Steps implements Parcelable{
     public String getsDesc(){return sDesc;}
     public String getDesc(){return desc;}
     public String getVideoURL(){return videoURL;}
+    public String getThumbnailURL(){return thumbnailURL;}
 
     @Override
     public int describeContents() {
@@ -50,5 +53,6 @@ public class Steps implements Parcelable{
         dest.writeString(sDesc);
         dest.writeString(desc);
         dest.writeString(videoURL);
+        dest.writeString(thumbnailURL);
     }
 }

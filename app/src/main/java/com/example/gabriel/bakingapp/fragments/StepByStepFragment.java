@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import com.example.gabriel.bakingapp.R;
 import com.example.gabriel.bakingapp.Utils.Steps;
 import com.example.gabriel.bakingapp.activities.StepByStepActivity;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -56,6 +58,7 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
     private PlaybackStateCompat.Builder mStateBuilder;
     String mText, mVideoURL;
     int mPrev,mNext;
+    Long position;
 
 
    public StepByStepFragment(){
@@ -71,7 +74,9 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
+        if (savedInstanceState != null){
+            position = savedInstanceState.getLong("position");
+        }
         View rootView = inflater.inflate(R.layout.step_by_step, container, false);
         ArrayList<Steps> current_step;
         int position;
@@ -154,7 +159,7 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
-
+        savedInstanceState.putLong("position", mExoPlayer.getCurrentPosition());
 
     }
 
@@ -222,6 +227,7 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
         @Override
         public void onPause() {
             mExoPlayer.setPlayWhenReady(false);
+            releasePlayer();
         }
 
         @Override
@@ -245,6 +251,7 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
             String userAgent = Util.getUserAgent(getActivity(), "BakingApp");
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
                     getActivity(), userAgent), new DefaultExtractorsFactory(), null, null);
+            if (position != null) mExoPlayer.seekTo(position);
             mExoPlayer.prepare(mediaSource);
             mExoPlayer.setPlayWhenReady(true);
         }

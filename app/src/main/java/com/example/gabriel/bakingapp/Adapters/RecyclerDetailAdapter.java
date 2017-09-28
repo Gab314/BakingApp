@@ -2,16 +2,19 @@ package com.example.gabriel.bakingapp.Adapters;
 
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.gabriel.bakingapp.R;
 import com.example.gabriel.bakingapp.Utils.Steps;
 import com.example.gabriel.bakingapp.fragments.DetailFragment;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -26,12 +29,14 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
 
     public class MyHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mText;
+        private ImageView mImage;
         private CardView mCardView;
 
         public MyHolder(View itemView) {
             super(itemView);
 
             mText = (TextView) itemView.findViewById(R.id.card_detailed_text_view_ing);
+            mImage = (ImageView) itemView.findViewById(R.id.card_detailed_ImageView);
             mCardView = (CardView) itemView.findViewById(R.id.card_detailed_card_view_ingredients);
 
             itemView.setOnClickListener(this);
@@ -72,12 +77,20 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
 
 
         String description = steps.getDesc();
-
-
-
+        String imageURL = steps.getThumbnailURL();
 
         TextView rTextView = holder.mText;
+        ImageView image = holder.mImage;
 
+
+        if (imageURL.length() > 0){
+            final String BASE_URL = "http://image.tmdb.org/t/p/w185";
+            Uri uri = Uri.parse(BASE_URL).buildUpon()
+                    .appendEncodedPath(imageURL).build();
+
+            Picasso.with(getContext()).setLoggingEnabled(true);
+            Picasso.with(getContext()).load(uri).into(image);
+        }
 
             rTextView.setText(description);
     }
