@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -48,8 +49,15 @@ import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class StepByStepFragment extends Fragment implements ExoPlayer.EventListener{
+
+    @BindView(R.id.step_TextView) TextView stepText;
+    @BindView(R.id.step_previous_btn) Button pButton;
+    @BindView(R.id.step_next_btn) Button nButton;
 
     final String LOG_TAG = StepByStepFragment.class.getSimpleName();
     private SimpleExoPlayer mExoPlayer;
@@ -81,11 +89,10 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
         ArrayList<Steps> current_step;
         int position;
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.step_SimpleExoPlayer);
-        TextView stepText = (TextView) rootView.findViewById(R.id.step_TextView);
-        Button pButton = (Button) rootView.findViewById(R.id.step_previous_btn);
-        Button nButton = (Button) rootView.findViewById(R.id.step_next_btn);
 
-
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ) {
+            ButterKnife.bind(this, rootView);
+        }
         mText = "NOT AVAILABLE";
 
             Intent intent = getActivity().getIntent();
@@ -159,7 +166,10 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putLong("position", mExoPlayer.getCurrentPosition());
+        if (mExoPlayer != null){
+            savedInstanceState.putLong("position", mExoPlayer.getCurrentPosition());
+        }
+
 
     }
 
@@ -236,6 +246,7 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
         }
     }
 
+
     private void initializePlayer(Uri mediaUri) {
         if (mExoPlayer == null) {
             // Create an instance of the ExoPlayer.
@@ -301,6 +312,13 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
             mExoPlayer = null;
         }
     }
+    @Override
+    public void onStop(){
+        super.onStop();
+        releasePlayer();
+    }
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();

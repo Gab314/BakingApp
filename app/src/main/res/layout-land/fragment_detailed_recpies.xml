@@ -2,21 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_detail_lands">
+    android:id="@+id/fragment_detail_lands"
+    android:weightSum="5"
+    android:background="@color/colorBackground">
     <ListView
         android:paddingTop="10dp"
         android:paddingBottom="5dp"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/ingredient_row_ListView"
-        android:background="@drawable/custom_shape">
+        android:background="@drawable/custom_shape"
+        android:layout_weight="2">
     </ListView>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:id="@+id/fragments_detailed_recipes_recycler_view"
-        android:background="@color/colorBackground">
+        android:background="@color/colorBackground"
+        android:layout_weight="3">
 
     </android.support.v7.widget.RecyclerView>
 </LinearLayout>

@@ -84,12 +84,8 @@ public class RecyclerDetailAdapter extends RecyclerView.Adapter<RecyclerDetailAd
 
 
         if (imageURL.length() > 0){
-            final String BASE_URL = "http://image.tmdb.org/t/p/w185";
-            Uri uri = Uri.parse(BASE_URL).buildUpon()
-                    .appendEncodedPath(imageURL).build();
-
             Picasso.with(getContext()).setLoggingEnabled(true);
-            Picasso.with(getContext()).load(uri).into(image);
+            Picasso.with(getContext()).load(imageURL).into(image);
         }
 
             rTextView.setText(description);

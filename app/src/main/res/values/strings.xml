@@ -5,4 +5,5 @@
     <string name="play_btn">Play</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="empty_text">Checkout a Recipe to see the ingredients here</string>
 </resources>

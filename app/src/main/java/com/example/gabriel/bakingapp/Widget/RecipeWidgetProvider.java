@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.RemoteViewsService;
 
 import com.example.gabriel.bakingapp.R;
 
@@ -28,6 +29,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         ArrayList<String> mList = option.getStringArrayList("LIST");
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
+
         Intent intent = new Intent(context, ListWidgetService.class);
         intent.putStringArrayListExtra("LIST", mList);
         intent.putExtra("Random", Math.random() * 1000);

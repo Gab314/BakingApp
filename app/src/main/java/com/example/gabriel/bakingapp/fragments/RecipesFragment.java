@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +35,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+
 public class RecipesFragment extends Fragment implements RecyclerViewAdapter.ItemClickListener{
-    Boolean tablet;
+
+
     RecyclerViewAdapter adapter;
     ArrayList<RecipeCards> mCardsList;
     final String LOG_TAG = RecipesFragment.class.getSimpleName();
@@ -73,7 +77,7 @@ public RecipesFragment(){
             mCardsList = savedInstanceState.getParcelableArrayList("Cards");
         }
         rv.setHasFixedSize(true);
-        int numberOfColumns = 1;
+        int numberOfColumns = calculateNoOfColumns(getActivity());
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
         rv.setLayoutManager(mLayoutManager);
 
@@ -235,5 +239,12 @@ public RecipesFragment(){
             }else Toast.makeText(getActivity(),"Can't retrieve resources", Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    public static int calculateNoOfColumns(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int scalingFactor = 300;
+        return (int) (dpWidth / scalingFactor);
     }
 }
