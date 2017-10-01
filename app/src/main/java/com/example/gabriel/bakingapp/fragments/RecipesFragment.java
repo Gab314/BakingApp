@@ -126,6 +126,7 @@ public RecipesFragment(){
             final String KEY_ID = "id";
             final String KEY_NAME = "name";
             final String KEY_SERVINGS = "servings";
+            final String KEY_IMAGE = "image";
             mList = new ArrayList<>();
 
 
@@ -134,7 +135,7 @@ public RecipesFragment(){
             for (int i = 0; i < results.length(); i++) {
                 int resultID;
                 String resultName;
-
+                String resultImage;
                 int resultServings;
 
 
@@ -146,8 +147,8 @@ public RecipesFragment(){
                 resultID = result.getInt(KEY_ID);
                 resultName = result.getString(KEY_NAME);
                 resultServings = result.getInt(KEY_SERVINGS);
-
-                RecipeCards recipeCards = new RecipeCards(resultID, resultName, resultServings,mJSonStr);
+                resultImage = result.getString(KEY_IMAGE);
+                RecipeCards recipeCards = new RecipeCards(resultID, resultName, resultServings,mJSonStr, resultImage);
 
                 mList.add(recipeCards);
 

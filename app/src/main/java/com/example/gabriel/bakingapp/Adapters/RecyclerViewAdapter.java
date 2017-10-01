@@ -7,9 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.gabriel.bakingapp.R;
 import com.example.gabriel.bakingapp.Utils.RecipeCards;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mTextView, sTextView;
         private CardView mCardView;
+        private ImageView mImageView;
 
 
         public MyViewHolder(View itemView) {
@@ -31,6 +34,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             mTextView = (TextView) itemView.findViewById(R.id.card_recipe_text_view);
             sTextView = (TextView) itemView.findViewById(R.id.card_recipe_text_view_servings);
             mCardView = (CardView) itemView.findViewById(R.id.card_recipe_card_view);
+            mImageView = (ImageView) itemView.findViewById(R.id.card_recipe_imageView);
             itemView.setOnClickListener(this);
         }
 
@@ -63,8 +67,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(RecyclerViewAdapter.MyViewHolder holder, int position) {
 
         RecipeCards cards = mRecipeCards.get(position);
+        String imageURL = cards.getRecipeImg();
         TextView textView = holder.mTextView;
         TextView stextView = holder.sTextView;
+        ImageView image = holder.mImageView;
+
+        if (imageURL.length() > 0){
+            Picasso.with(getContext()).setLoggingEnabled(true);
+            Picasso.with(getContext()).load(imageURL).into(image);
+        }
         String text_name = cards.getRecipe_name();
         String servings = "Servings: " + String.valueOf(cards.getRecipe_servings_size());
             textView.setText(text_name);

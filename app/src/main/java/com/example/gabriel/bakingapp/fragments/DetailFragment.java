@@ -38,7 +38,8 @@ public class DetailFragment extends Fragment implements RecyclerDetailAdapter.It
     ArrayAdapter<String> ingAdapter;
     ArrayList<String> mIngList;
     ArrayList<Steps> mStepsList;
-    String mIngText;
+    int recipePosition;
+    String mIngText, recipes;
     final String LOG_TAG = DetailFragment.class.getSimpleName();
 
     public DetailFragment(){
@@ -85,18 +86,16 @@ public class DetailFragment extends Fragment implements RecyclerDetailAdapter.It
 
             if (savedInstanceState == null){
                 Intent intent = getActivity().getIntent();
-               String recipes = intent.getStringExtra("recipe");
-               int position = intent.getIntExtra("position",0);
-                try {
-                    extractJSON(recipes,position);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+               recipes = intent.getStringExtra("recipe");
+               recipePosition = intent.getIntExtra("position",0);
+                if(recipes != null) {
+                    try {
+                        extractJSON(recipes, recipePosition);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-
             }
-
-
-
             IngredientsIntentService.startActionPutIngredients(getActivity(), mIngList);
             return rootView;
         }
@@ -112,8 +111,10 @@ public class DetailFragment extends Fragment implements RecyclerDetailAdapter.It
 
         if (small_sc != null){
             Intent intent = new Intent(getActivity(), StepByStepActivity.class);
-            intent.putParcelableArrayListExtra("StepsArray",mStepsList );
+            intent.putParcelableArrayListExtra("StepsArray",mStepsList);
             intent.putExtra("position", position);
+            intent.putExtra("REC_P", recipePosition);
+            intent.putExtra("RECIPE", recipes);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
             }else startActivity(intent);

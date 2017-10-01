@@ -12,16 +12,18 @@ import java.io.Serializable;
 public class RecipeCards implements Serializable, Parcelable{
 
     private int recipe_id;
-    private String recipe_name, jsonString;
+    private String recipe_name, jsonString, recipeImg;
     private int recipe_servings_size;
 
 
 
-public RecipeCards(int id, String name, int servings, String jSONString){
+
+public RecipeCards(int id, String name, int servings, String jSONString, String img){
     recipe_id = id;
     recipe_name = name;
     recipe_servings_size = servings;
     jsonString = jSONString;
+    recipeImg = img;
 }
 
     protected RecipeCards(Parcel in) {
@@ -29,6 +31,7 @@ public RecipeCards(int id, String name, int servings, String jSONString){
         recipe_name = in.readString();
         jsonString = in.readString();
         recipe_servings_size = in.readInt();
+        recipeImg = in.readString();
     }
 
     public static final Creator<RecipeCards> CREATOR = new Creator<RecipeCards>() {
@@ -50,7 +53,9 @@ public RecipeCards(int id, String name, int servings, String jSONString){
     public String getRecipe_name(){
         return recipe_name;
     }
-
+    public String getRecipeImg(){
+        return recipeImg;
+    }
     public int getRecipe_servings_size(){
         return recipe_servings_size;
     }
@@ -67,5 +72,6 @@ public RecipeCards(int id, String name, int servings, String jSONString){
         dest.writeString(recipe_name);
         dest.writeString(jsonString);
         dest.writeInt(recipe_servings_size);
+        dest.writeString(recipeImg);
     }
 }

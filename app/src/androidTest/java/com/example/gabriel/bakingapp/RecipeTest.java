@@ -34,11 +34,6 @@ public class RecipeTest {
     public ActivityTestRule<StepByStepActivity> mActivityTestRule =
             new ActivityTestRule<>(StepByStepActivity.class);
 
-        @Test
-    public void RecipesAcct(){
-        onView((withId(R.id.step_TextView))).check(matches(withText("NOT AVAILABLE")));
-    }
-
 
     public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
         return new RecyclerViewMatcher(recyclerViewId);

@@ -29,7 +29,7 @@
         <activity android:name=".activities.StepByStepActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.gabriel.bakingapp.activities.MainActivity" />
+                android:value="com.example.gabriel.bakingapp.activities.DetailActivity" />
         </activity>
 
         <receiver android:name=".Widget.RecipeWidgetProvider">

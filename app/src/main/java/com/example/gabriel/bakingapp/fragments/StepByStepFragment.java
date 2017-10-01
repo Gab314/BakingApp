@@ -16,10 +16,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -64,8 +66,9 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
     private SimpleExoPlayerView mPlayerView;
     private static MediaSessionCompat mMediaSession;
     private PlaybackStateCompat.Builder mStateBuilder;
-    String mText, mVideoURL;
-    int mPrev,mNext;
+    private ArrayList<Steps> current_step;
+    String mText, mVideoURL, recipes;
+    int mPrev,mNext, recipePosition;
     Long position;
 
 
@@ -86,7 +89,7 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
             position = savedInstanceState.getLong("position");
         }
         View rootView = inflater.inflate(R.layout.step_by_step, container, false);
-        ArrayList<Steps> current_step;
+
         int position;
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.step_SimpleExoPlayer);
 
@@ -98,12 +101,16 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
             Intent intent = getActivity().getIntent();
             position = intent.getIntExtra("position",0);
             current_step =  intent.getParcelableArrayListExtra("StepsArray");
+            recipes = intent.getStringExtra("RECIPE");
+            recipePosition = intent.getIntExtra("REC_P",0);
 
         if (getArguments() != null){
             current_step = getArguments().getParcelableArrayList("StepsArray");
             position = getArguments().getInt("position");
-            pButton.setVisibility(View.GONE);
-            nButton.setVisibility(View.GONE);
+            if (pButton != null) {
+                pButton.setVisibility(View.GONE);
+                nButton.setVisibility(View.GONE);
+            }
         }
 
 
@@ -163,6 +170,20 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
         return rootView;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent upIntent = NavUtils.getParentActivityIntent(getActivity());
+                upIntent.putParcelableArrayListExtra("ARRAY_FROM_STEPS", current_step);
+                upIntent.putExtra("position", recipePosition);
+                upIntent.putExtra("recipe", recipes);
+                NavUtils.navigateUpTo(getActivity(), upIntent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
@@ -317,7 +338,16 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
         super.onStop();
         releasePlayer();
     }
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        //initialize media Session
+        initializeMediaSession();
+        // Initialize the player.
+        if (isOnline(getActivity()) && mVideoURL.length() > 0) {
+            initializePlayer(Uri.parse(mVideoURL));
+        }else mPlayerView.setVisibility(View.GONE);
+    }
 
     @Override
     public void onDestroy() {
