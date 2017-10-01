@@ -113,8 +113,7 @@ public class DetailFragment extends Fragment implements RecyclerDetailAdapter.It
             Intent intent = new Intent(getActivity(), StepByStepActivity.class);
             intent.putParcelableArrayListExtra("StepsArray",mStepsList);
             intent.putExtra("position", position);
-            intent.putExtra("REC_P", recipePosition);
-            intent.putExtra("RECIPE", recipes);
+            
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
             }else startActivity(intent);

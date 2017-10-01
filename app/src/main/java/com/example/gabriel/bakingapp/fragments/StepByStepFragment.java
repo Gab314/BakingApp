@@ -101,8 +101,7 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
             Intent intent = getActivity().getIntent();
             position = intent.getIntExtra("position",0);
             current_step =  intent.getParcelableArrayListExtra("StepsArray");
-            recipes = intent.getStringExtra("RECIPE");
-            recipePosition = intent.getIntExtra("REC_P",0);
+
 
         if (getArguments() != null){
             current_step = getArguments().getParcelableArrayList("StepsArray");
@@ -170,20 +169,6 @@ public class StepByStepFragment extends Fragment implements ExoPlayer.EventListe
         return rootView;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                Intent upIntent = NavUtils.getParentActivityIntent(getActivity());
-                upIntent.putParcelableArrayListExtra("ARRAY_FROM_STEPS", current_step);
-                upIntent.putExtra("position", recipePosition);
-                upIntent.putExtra("recipe", recipes);
-                NavUtils.navigateUpTo(getActivity(), upIntent);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
