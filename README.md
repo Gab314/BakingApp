@@ -15,5 +15,5 @@ Contains:
 
 </p>
 <p align="center">
-  <img src="./BakingApp_Img/BA_3.png" alt="Size Limit CLI" width="780">
+  <img src="./BakingApp_Img/BA_3.png" alt="Size Limit CLI" width="520">
 </p>
